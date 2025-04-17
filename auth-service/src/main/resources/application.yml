@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/smartdoc?currentSchema=public
+    username: smartdoc
+    password: "niRmABrUeRGasYnO"
+    hikari:
+      connection-test-query: SELECT 1
+      pool-name: HikariCP
+      connection-timeout: 30000
+      maximum-pool-size: 20
+      max-lifetime: 1800000
+      minimum-idle: 2
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: public
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration/public,classpath:db/migration/tenant
+    schemas: public
+    table: flyway_schema_history
+    validate-on-migrate: true
+
+jwt:
+  secret: n/WnpjBzuyPQnBHFOG0V5TXaRyEwnD7W30T6dN6tBKo=
+  expiration: 86400000 # 24 hours in milliseconds
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.smartdocx.auth: DEBUG
+    org.flywaydb: INFO
